@@ -1,0 +1,181 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum FrontendTech{
+  Random
+  HTML
+  React
+  NextJs
+}
+enum BackendTech{
+  Random
+  Django
+  FastApi
+  Flask
+  Express
+  NextJs
+}
+enum Database{
+  Random
+  MySql
+  Postgress
+  MongoDB
+}
+enum Language{
+  Python
+  JavaScript
+  TypeScript
+}
+enum ProjectType{
+  Ecommerce
+  Portfolio
+  OTT
+  Others
+}
+enum Domain{
+  Frontend
+  Backend
+  FullStack
+  Other
+}
+enum WebServices{
+  frontend
+  backend
+  fullstack
+  mobileapp
+  utils
+  testcase
+}
+
+enum OtherServices{
+  mentorship
+  learner
+  supporter
+  worker
+  collab
+}
+
+enum ProjectStatus{
+  upcoming
+  ongoing
+  completed
+}
+
+enum NotificationType{
+  request
+  update 
+  change
+}
+
+model User{
+   id Int @id @default(autoincrement())
+   username String
+   email String @unique
+   password String
+   joinedAt DateTime @default(now())
+   isSuperUser Boolean @default(false)
+   isActive Boolean @default(true)
+   isAdmin Boolean @default(false)
+   testimonials Testimonials[]
+   webProjects WebProjects[]
+   otherProjects OtherProjects[]
+   Blogs Blog[]
+   message Message[]
+   notifications Notification[]
+}
+
+model Testimonials{
+  id Int @id @default(autoincrement())
+  message String @db.Text
+  userId Int
+  isApproved Boolean @default(false)
+  user User @relation(fields:[userId],references:[id])
+  createdAt DateTime @default(now())
+}
+
+model WebProjects{
+  id Int @id @default(autoincrement())
+  model String @default("web")
+  name String
+  description String @db.Text
+  userId  Int 
+  user User @relation(fields: [userId],references: [id])
+  projectType ProjectType @default(Others)
+  frontendTech FrontendTech?
+  backendTech BackendTech?
+  database Database?
+  language Language?
+  service WebServices?
+  createdAt DateTime @default(now())
+  isVerified Boolean @default(false)
+  price Float @default(0.0)
+  status ProjectStatus @default(upcoming)
+  timeTaken Int @default(0)
+  secreatKey String? @unique
+  messages Message[] @relation("WebProjects")
+}
+
+model OtherProjects{
+  id Int @id @default(autoincrement())
+  technology String?
+  domain Domain?
+  projectName String?
+  model String @default("others")
+  projectType ProjectType? @default(Others)
+  TaskType String?
+  service OtherServices?
+  description String? @db.Text
+  createdAt DateTime @default(now())
+  isVerified Boolean @default(false)
+  userId  Int 
+  user User @relation(fields: [userId],references: [id])
+  price Float @default(0.0)
+  timeTaken Int @default(0)
+  secreatKey String? @unique
+  messages Message[] @relation("OtherProjects")
+}
+
+model Blog{
+  id Int @id @default(autoincrement())
+  title String?
+  description String @db.Text
+  isPublished Boolean @default(false)
+  userId  Int 
+  user User @relation(fields: [userId],references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Message{
+  id Int @id @default(autoincrement())
+  text String
+  senderId Int
+  sender User @relation(fields: [senderId],references: [id])
+  webProjectKey String?
+  otherProjectKey String?
+  webProject WebProjects? @relation("WebProjects",fields: [webProjectKey],references: [secreatKey])
+  otherProject OtherProjects? @relation("OtherProjects",fields: [otherProjectKey],references: [secreatKey])
+  createdAt DateTime @default(now())
+}
+
+model Notification{
+  id Int @id @default(autoincrement())
+  title String?
+  message String
+  userId  Int 
+  isRead Boolean @default(false)
+  type NotificationType?
+  user User @relation(fields: [userId],references: [id])
+  createdAt DateTime @default(now())
+}
