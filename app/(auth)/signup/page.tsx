@@ -1,0 +1,102 @@
+'use client'
+import { Button } from '@/components/ui/button'
+import { Field, FieldContent, FieldError, FieldGroup, FieldLabel, FieldLegend, FieldSeparator, FieldSet, FieldTitle } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
+import Link from 'next/link'
+import { toast } from 'sonner'
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SignUpSchema, SignUpType } from '@/dto/auth.dto'
+import { registerUser } from '@/actions/authUser'
+import { useRouter } from 'next/navigation'
+
+const SignUp = () => {
+    const router=useRouter()
+    const {formState:{errors},register,handleSubmit}=useForm({
+        mode:"onChange",
+        defaultValues:{},
+        resolver:zodResolver(SignUpSchema),
+    })
+    
+    const handleClick=(data:SignUpType)=>{
+        const user=registerUser(data)
+        if (user?.error) {
+            toast.error(user.error.message)   
+        }
+        toast.success("Logged Successfully")
+        router.push("/login")
+    }
+    return(
+        <div className="flex items-center justify-center h-[120vh] md:h-[135vh] lg:h-[135vh]">
+            <form className="w-full max-w-md p-4 lg:p-0 md:p-0" action={handleSubmit(handleClick)}>
+                <FieldGroup>
+                    <FieldSet>
+                        <FieldLegend className='text-center'>
+                            <FieldTitle className='text-md lg:text-[18px] font-semibold'>Create WebHub Account</FieldTitle>
+                        </FieldLegend>
+                        <FieldSeparator/>
+                        <FieldContent>
+                            <FieldGroup>
+                                <Field>
+                                    <FieldLabel htmlFor='email'>Email</FieldLabel>
+                                    <Input type='email' className='focus-visible:ring-blue-600/75' {...register("email")}/>
+                                    <FieldError>{errors.email?.message}</FieldError>
+                                </Field>
+                                <FieldGroup>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <Field>
+                                            <FieldLabel htmlFor='username'>Username</FieldLabel>
+                                            <Input type='text' className='focus-visible:ring-blue-600/75' {...register("username")}/>
+                                            <FieldError>{errors.username?.message}</FieldError>
+                                        </Field>
+                                        <Field>
+                                            <FieldLabel>Profession</FieldLabel>
+                                                <Select>
+                                                    <SelectTrigger className="w-[180px]">
+                                                        <SelectValue placeholder="Select a profession" />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectGroup>
+                                                            <SelectLabel>Profession</SelectLabel>
+                                                            <SelectItem value="apple">Apple</SelectItem>
+                                                            <SelectItem value="banana">Banana</SelectItem>
+                                                            <SelectItem value="blueberry">Blueberry</SelectItem>
+                                                            <SelectItem value="grapes">Grapes</SelectItem>
+                                                            <SelectItem value="pineapple">Pineapple</SelectItem>
+                                                        </SelectGroup>
+                                                    </SelectContent>
+                                                </Select>
+                                            <FieldError/>
+                                        </Field>
+                                    </div>
+                                </FieldGroup>
+                                <Field>
+                                    <FieldLabel htmlFor='password'>Password</FieldLabel>
+                                    <Input type='password' className='focus-visible:ring-blue-600/75' {...register("password")}/>
+                                    <FieldError>{errors.password?.message}</FieldError>
+                                </Field>
+                                <Field>
+                                    <FieldLabel htmlFor='confirmPassword'>Confirm Password</FieldLabel>
+                                    <Input type='password' {...register("confirmPassword")} className='focus-visible:ring-blue-600/75' />
+                                    <FieldError>{errors.confirmPassword?.message}</FieldError>
+                                </Field>
+                            </FieldGroup>
+                        </FieldContent>
+                    </FieldSet>
+                    <FieldGroup>
+                        <Field>
+                            <Button>SignUp</Button>
+                        </Field>
+                    </FieldGroup>
+                    <FieldSeparator/>
+                    <FieldGroup className='text-center'>
+                        <h2 className='font-semibold'>Do you have an account ?<Link href="/login" className='text-blue-500 pl-2'>Login</Link></h2>
+                    </FieldGroup>
+                </FieldGroup>
+            </form>
+        </div>
+    )
+}
+
+export default SignUp

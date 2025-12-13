@@ -1,0 +1,257 @@
+import { backend, databasees, domains, frontend, languages, otherServices, projectStatus, projectTypes, ptypes, webServices } from "./constants";
+
+export type InputFieldType={
+    type:string
+    inputType?:string,
+    name:string
+    title:string
+}
+
+export const UserInputFields:InputFieldType[]=[
+    {
+        type:"input",
+        inputType:"text",
+        name:'username',
+        title:"Username"
+    },{
+        type:"input",
+        inputType:"email",
+        name:'email',
+        title:"Email"
+    },
+    {
+        type:"fullInput",
+        inputType:"text",
+        name:'password',
+        title:"Password"
+    },
+    {
+        type:"checkbox",
+        name:'isSuperUser',
+        title:"isSuperUser"
+    },
+    {
+        type:"checkbox",
+        name:'isActive',
+        title:"isActive"
+    },
+    {
+        type:"checkbox",
+        name:'isAdmin',
+        title:"isAdmin"
+    },
+]
+
+const commonProjectFields=[
+    {
+        type:"input",
+        inputType:"number",
+        name:'userId',
+        title:"userId"
+    },
+    {
+        type:"input",
+        inputType:"number",
+        name:'price',
+        title:"price"
+    },
+    {
+        type:"input",
+        inputType:"number",
+        name:'timeTaken',
+        title:"timeTaken"
+    },
+    {
+        type:"input",
+        inputType:"text",
+        name:'secreatKey',
+        title:"secreatKey"
+    },
+    {
+        type:'checkbox',
+        name:'isVerified',
+        title:"isVerified"
+    },
+    {
+        type:"textarea",
+        name:'description',
+        title:"description"
+    },
+    {
+        type:"select",
+        name:"projectType",
+        title:"projectType",
+        options:ptypes
+    },
+]
+
+export const webProjectFields=[
+    {
+        type:"input",
+        inputType:"text",
+        name:'name',
+        title:"Name"
+    },
+    {
+        type:"select",
+        name:"frontendTech",
+        title:"FrontendTech",
+        options:frontend
+    },
+    {
+        type:"select",
+        name:"backendTech",
+        title:"BackendTech",
+        options:backend
+    },
+    {
+        type:"select",
+        name:"database",
+        title:"Database",
+        options:databasees
+    },
+    {
+        type:"select",
+        name:"language",
+        title:"Language",
+        options:languages
+    },
+    {
+        type:"select",
+        name:"service",
+        title:"Service",
+        options:webServices
+    },
+    {
+        type:"select",
+        name:"status",
+        title:"Status",
+        options:projectStatus
+    },
+    ...commonProjectFields,
+]
+export const otherProjectFields=[
+    {
+        type:"input",
+        inputType:"text",
+        name:'technology',
+        title:"technology"
+    },
+    {
+        type:"input",
+        inputType:"text",
+        name:'projectName',
+        title:"projectName"
+    },
+    {
+        type:"input",
+        inputType:"text",
+        name:'TaskType',
+        title:"TaskType"
+    },
+    {
+        type:"select",
+        name:"service",
+        title:"service",
+        options:otherServices
+    },
+    {
+        type:"select",
+        name:"domain",
+        title:"domain",
+        options:domains
+    },
+     ...commonProjectFields,
+]
+
+export const testimonialsFields=[
+    {
+        type:"textarea",
+        inputType:"text",
+        name:'message',
+        title:"message"
+    },
+    {
+        type:"input",
+        inputType:"number",
+        name:'userId',
+        title:"userId"
+    },
+    {
+        type:"checkbox",
+        name:'isApproved',
+        title:"isApproved"
+    },
+]
+
+export const blogFields=[
+    {
+        type:"input",
+        inputType:"text",
+        name:"title",
+        title:"title"
+    },
+    {
+        type:"textarea",
+        name:"description",
+        title:"description"
+    },
+    {
+        type:"input",
+        inputType:"number",
+        name:'userId',
+        title:"userId"
+    },
+    {
+        type:"checkbox",
+        name:'isPublished',
+        title:"isPublished"
+    },
+]
+
+export const messageInputFields=[
+    {
+        type:"input",
+        inputType:"number",
+        name:'senderId',
+        title:"senderId"
+    },
+    {
+        type:"input",
+        inputType:"text",
+        name:"text",
+        title:"text"
+    },
+    {
+        type:"input",
+        inputType:"text",
+        name:"webProjectKey",
+        title:"webProjectKey"
+    },
+    {
+        type:"input",
+        inputType:"text",
+        name:"otherProjectKey",
+        title:"otherProjectKey"
+    },
+] 
+export const notificationInputFields=[
+    {
+        type:"input",
+        inputType:"number",
+        name:'userId',
+        title:"userId"
+    },
+    {
+        type:"input",
+        inputType:"text",
+        name:"title",
+        title:"title"
+    },
+    {
+        type:"input",
+        inputType:"text",
+        name:"message",
+        title:"message"
+    },
+] 
