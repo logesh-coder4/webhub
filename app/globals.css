@@ -137,6 +137,52 @@
 }
 
 @layer base {
+  :root {
+    --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.97 0 0);
+    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-border: oklch(0.922 0 0);
+    --sidebar-ring: oklch(0.708 0 0);
+      --dashboard-bg: 210 20% 98%;
+    --stats-card-1: 210 100% 96%;
+    --stats-card-2: 142 76% 96%;
+    --stats-card-3: 48 96% 96%;
+    --stats-card-4: 280 100% 96%;
+    --stats-icon-1: 210 100% 50%;
+    --stats-icon-2: 142 76% 36%;
+    --stats-icon-3: 48 96% 53%;
+    --stats-icon-4: 280 100% 70%;
+    --shadow-neumorphic: 0 8px 24px -8px hsl(210 20% 80% / 0.3);
+    --shadow-card: 0 4px 16px -4px hsl(210 20% 80% / 0.2);
+  }
+
+  .dark {
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.439 0 0);
+    --dashboard-bg: 215 25% 15%;
+    --stats-card-1: 210 100% 20%;
+    --stats-card-2: 142 50% 20%;
+    --stats-card-3: 48 80% 20%;
+    --stats-card-4: 280 80% 20%;
+    --stats-icon-1: 210 100% 60%;
+    --stats-icon-2: 142 76% 50%;
+    --stats-icon-3: 48 96% 60%;
+    --stats-icon-4: 280 100% 75%;
+    --shadow-neumorphic: 0 8px 24px -8px hsl(0 0% 0% / 0.4);
+    --shadow-card: 0 4px 16px -4px hsl(0 0% 0% / 0.3);
+  }
+}
+
+@layer base {
   * {
     @apply border-border outline-ring/50;
   }

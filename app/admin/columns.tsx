@@ -189,7 +189,7 @@ export const webProjectColumns= ({setId,setOperation}:ColumnProps):ColumnDef<Web
         {
             accessorKey:"isVerified",
             cell({row}) {
-                const value=row.getValue("isActive")
+                const value=row.getValue("isVerified")
                 return(
                     <div className="">
                         {value===true?<Verified className="text-green-500"/>:<IconCancel/>}
@@ -205,7 +205,7 @@ export const webProjectColumns= ({setId,setOperation}:ColumnProps):ColumnDef<Web
                 variant="ghost"
                 onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                Email
+                Project Type
                 <ArrowUpDown />
                 </Button>
             )
@@ -328,7 +328,7 @@ export const otherProjectColumns=({setId,setOperation}:ColumnProps):ColumnDef<Ot
         {
             accessorKey:"isVerified",
             cell({row}) {
-                const value=row.getValue("isActive")
+                const value=row.getValue("isVerified")
                 return(
                     <div className="">
                         {value===true?<Verified className="text-green-500"/>:<IconCancel/>}

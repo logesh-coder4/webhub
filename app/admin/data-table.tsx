@@ -64,11 +64,12 @@ export function CustomTable<T>({data,columns,filterName}:TableProps<T>) {
       columnFilters,
       columnVisibility,
       rowSelection,
+    },
+    initialState:{
       pagination:{
-        pageIndex:0,
         pageSize:5
       }
-    },
+    }
   })
 
   return (

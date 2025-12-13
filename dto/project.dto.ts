@@ -20,7 +20,7 @@ export type OtherProjectType=MentorProjectType & SupportedProjectType
 export const WebCommanSchema=z.object({
     name:z.string().min(4,"Name must be atleast 4 chars"),
     description:z.string().min(12,'Description contails more than 12 chars'),
-    type:z.enum(ProjectType),
+    projectType:z.enum(ProjectType),
 })
 
 export const FrontendEndSchema=z.object({
@@ -44,7 +44,6 @@ export const FullStackSchema=z.object({
 export const MobileAppSchema=z.object({
     ztype:z.literal('mobileapp')
 })
-
 
 export const OtherWebSchema=z.object({
     language:z.enum(Language),

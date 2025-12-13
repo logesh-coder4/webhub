@@ -57,12 +57,6 @@ const SelectService = () => {
             icon:<Puzzle/>,
             query:"utils"
         },
-        {
-            name:"Testing & QA",
-            description:"Ensure your app’s stability and performance with automated and manual test coverage.",
-            icon:<TestTube/>,
-            query:"testcase"
-        }
     ]
     const otherServices:ServiceType[]=[
         {
@@ -81,7 +75,7 @@ const SelectService = () => {
             name:"Learning Guidance",
             description:"Step-by-step guidance with structured learning paths and project-based practice.",
             icon:<BookOpen/>,
-            query:"guidance"
+            query:"learner"
         },
         {
             name:"Team Worker for Your Project",

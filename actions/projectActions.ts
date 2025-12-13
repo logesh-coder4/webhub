@@ -3,7 +3,7 @@ import { createWebProject,createOtherProject, deleteProject, updateProject } fro
 import { OtherProjectType } from "@/dto/project.dto";
 import { CreateWebProjectType } from "@/dto/project.dto";
 import { OtherProjects, WebProjects } from "@/lib/generated/prisma/client";
-import {getSession} from "next-auth/react";
+import {getSession} from "@/lib/getSession";
 
 export const createWebProjectAction=async (data:CreateWebProjectType) => {
     try{
@@ -14,7 +14,7 @@ export const createWebProjectAction=async (data:CreateWebProjectType) => {
         const project=createWebProject(data)
         return {isSuccess:true,projectData:project}
     }catch(error){
-        return {isSuccess:false}
+        return {isSuccess:false,error}
     }
 }
 

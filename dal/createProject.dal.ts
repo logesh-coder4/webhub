@@ -11,32 +11,36 @@ export async function createWebProject(rawData:CreateWebProjectType) {
     if (!session?.user) {
         throw new Error('Not Authenticated')
     }
-    const {name,description,type,frontendTech,backendTech,database,language,service}=rawData
-    const projectData={
-        name,
-        description,
-        type,
-        backendTech,
-        frontendTech,
-        database,
-        language,
-        service,
-        userId:parseInt(session?.user.id!)
+    try{
+        const {name,description,projectType,frontendTech,backendTech,database,language,service}=rawData
+        const projectData={
+            name,
+            description,
+            projectType,
+            backendTech,
+            frontendTech,
+            database,
+            language,
+            service,
+            userId:parseInt(session?.user.id!)
+        }
+        const project=await db.webProjects.create(
+        {data:projectData})
+        const secreatKey=createSecreatKey(project.id)
+        const updatedProject=await db.webProjects.update({
+            where:{
+                id:project.id
+            },
+            data:{
+                secreatKey:secreatKey
+            },include:{user:{
+                select:{username:true}
+            }}
+        })
+        return updatedProject
+    }catch(error){
+        throw new Error(error)
     }
-    const project=await db.webProjects.create(
-    {data:projectData})
-    const secreatKey=createSecreatKey(project.id)
-    const updatedProject=await db.webProjects.update({
-        where:{
-            id:project.id
-        },
-        data:{
-            secreatKey:secreatKey
-        },include:{user:{
-            select:{username:true}
-        }}
-    })
-    return updatedProject
 }
 
 export const createOtherProject=async (data:OtherProjectType) => {
@@ -44,20 +48,24 @@ export const createOtherProject=async (data:OtherProjectType) => {
     if (!session?.user) {
         throw new Error('Not Authenticated')
     }
-    data.userId=parseInt(session.user.id!)
-    const project=await db.otherProjects.create({data:data})
-    const secreatKey=createSecreatKey(project.id)
-    const updatedProject=await db.otherProjects.update({
-        where:{
-            id:project.id
-        },
-        data:{
-            secreatKey:secreatKey
-        },include:{user:{
-            select:{username:true}
-        }}
-    })
-    return updatedProject
+    try {
+            data.userId=parseInt(session.user.id!)
+        const project=await db.otherProjects.create({data:data})
+        const secreatKey=createSecreatKey(project.id)
+        const updatedProject=await db.otherProjects.update({
+            where:{
+                id:project.id
+            },
+            data:{
+                secreatKey:secreatKey
+            },include:{user:{
+                select:{username:true}
+            }}
+        })
+        return updatedProject
+    } catch (error) {
+        throw new Error(error)
+    }
 }
 
 export const deleteProject=async (id:number,model:'web'|"others") => {
