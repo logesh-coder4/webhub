@@ -4,9 +4,9 @@ import { usePathname } from "next/navigation";
 
 export default function Footer() {
   const pathname=usePathname()
-  if (pathname.includes('/project/')||pathname.includes('/admin')) return
+  if (pathname.includes('/project/')||pathname.includes('/admin')||pathname.includes("/blog")) return
   return (
-    <footer className="w-full bg-gray-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-300 py-14 z-10 absolute">
+    <footer className="w-full bg-gray-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-300 py-14 absolute">
       <div className="max-w-7xl mx-auto px-6">
         {/* Top Section */}
         <div className="grid md:grid-cols-4 gap-10">

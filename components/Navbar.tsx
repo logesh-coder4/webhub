@@ -28,7 +28,7 @@ const NavigartionBar = () => {
                         <NavbarButton variant='primary' href='/login'>Login</NavbarButton>
                         <NavbarButton variant='dark' href='/signup'>SignUp</NavbarButton>
                     </>):(
-                        <div className="h-10 w-40 rounded border delay-75 bg-zinc-800 flex items-center justify-center shadow animate-pulse duration-100 repeat-infinite">
+                        <div className="h-10 w-40 rounded border delay-75 bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center shadow animate-pulse duration-100 repeat-infinite">
                             <Spinner/>
                         </div>
                     )

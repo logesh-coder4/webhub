@@ -1,5 +1,5 @@
-import db from "@/lib/db";
-import { Message } from "@/generated/prisma/client";
+import {db} from "@/lib/db";
+import { Message } from "@/lib/generated/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import Pusher from "pusher";
 
@@ -16,7 +16,7 @@ export async function GET(request:NextRequest) {
     let projectName;
     const searchParams=request.nextUrl.searchParams
     const key=searchParams.get("key") as string
-    const projectType=searchParams.get("type")    
+    const projectType=searchParams.get("type")
     if (projectType==='web') {
         projectName=await db.webProjects.findFirst({
             where:{
@@ -38,6 +38,7 @@ export async function GET(request:NextRequest) {
         },
         orderBy:{createdAt:"asc"}
         })   
+        
     }else if(projectType==='others'){
         projectName=await db.otherProjects.findFirst({
             where:{

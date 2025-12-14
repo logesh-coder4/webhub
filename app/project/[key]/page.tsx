@@ -1,12 +1,9 @@
-import ChatArea from '@/components/Chat'
 import React from 'react'
 
-const ProjectDetails = () => {
+const page = () => {
   return (
-    <div className='h-[93vh]'>
-      <ChatArea/>
-    </div>
+    <div>page</div>
   )
 }
 
-export default ProjectDetails
+export default page

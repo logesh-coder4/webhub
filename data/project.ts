@@ -1,5 +1,6 @@
 'use server'
 import {db} from "@/lib/db"
+import { getSession } from "@/lib/getSession"
 
 export const getProjects=async () => {
     try {
@@ -19,14 +20,19 @@ export const getProjects=async () => {
 }
 
 
-export const getUserProjects=async (userId:string) => {    
+export const getUserProjects=async () => {    
+    const session=await getSession()
+    if (!session) {
+        throw new Error("")
+    }
+    const userId=session.user?.id
     try {
         const webProjects=await db.webProjects.findMany({where:{
-            userId:parseInt(userId)
+            userId:parseInt(userId!)
         }})
         const otherProjects=await db.otherProjects.findMany({
             where:{
-                userId:parseInt(userId)
+                userId:parseInt(userId!)
             }
         })
         const webProjectsCount=webProjects.length

@@ -10,37 +10,23 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { useSearchParams } from "next/navigation"
 
 // Menu items.
-const items = [
+
+export default function ProjectSidebar({secreatKey,projectType}:{secreatKey:string,projectType:string}) {
+  const items = [
   {
     title: "Home",
-    url: "#",
+    url: `/project/${secreatKey}?type=${projectType}`,
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
+    title: "Discussion",
+    url: `/project/${secreatKey}/discussion?type=${projectType}`,
     icon: Inbox,
   },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
 ]
-
-export default function ProjectSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarContent>

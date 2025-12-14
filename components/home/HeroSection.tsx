@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { RainbowButton } from '../ui/rainbow-button';
 import { motion } from "motion/react";
 import { ChevronRightIcon } from 'lucide-react';
+import { Button } from '../ui/button';
 
 const HeroSection=()=>{
   return(
@@ -68,9 +69,10 @@ const HeroSection=()=>{
         <RainbowButton className='w-60 transform rounded-lg px-6 py-5 font-medium  transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200'>
           <Link href="/project-type">Book Your Project</Link><ChevronRightIcon/>
         </RainbowButton>
-          <button className="w-60 transform rounded-lg border border-gray-300 bg-white px-6 py-3 font-medium text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-100 dark:border-gray-700 dark:bg-black dark:text-white dark:hover:bg-gray-900">
+          <Button 
+          className="w-60 h-11 transform rounded-lg border border-gray-300 bg-white px-6 py-3 font-medium text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-100 dark:border-gray-700 dark:bg-black dark:text-white dark:hover:bg-gray-900">
             Contact Support
-          </button>
+          </Button>
         </motion.div>
       </div>
     </div>

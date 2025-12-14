@@ -1,20 +1,25 @@
+'use client'
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface ProjectCardProps {
   name: string;
   domain: string;
-  status: "Active" | "Completed" | "In Progress";
+  status: "upcoming" | "completed" | "ongoing";
   createdDate: string;
+  secreatKey: string;
+  modal:string
 }
 
-export function ProjectCard({ name, domain, status, createdDate }: ProjectCardProps) {
+export function ProjectCard({ name, domain, status, createdDate,secreatKey,modal }: ProjectCardProps) {
+  const router=useRouter()
   const statusColors = {
-    "Active": "bg-green-500/10 text-green-600 dark:text-green-400 hover:bg-green-500/20",
-    "Completed": "bg-primary/10 text-primary hover:bg-primary/20",
-    "In Progress": "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 hover:bg-yellow-500/20",
+    "upcoming": "bg-green-500/10 text-green-600 dark:text-green-400 hover:bg-green-500/20",
+    "completed": "bg-primary/10 text-primary hover:bg-primary/20",
+    "ongoing": "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 hover:bg-yellow-500/20",
   };
 
   return (
@@ -36,7 +41,7 @@ export function ProjectCard({ name, domain, status, createdDate }: ProjectCardPr
         </div>
 
         {/* Action */}
-        <Button className="w-full rounded-xl" variant="secondary">
+        <Button className="w-full rounded-xl" variant="secondary" onClick={()=>router.push(`/project/${secreatKey}/?type=${modal}`)}>
           View Project
         </Button>
       </div>

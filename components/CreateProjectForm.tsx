@@ -73,7 +73,7 @@ export function CreateWebProjectForm({service}:Props) {
                         required
                         {...register("name")}
                         />
-                        <FieldError>{errors["ztype"]?.message}</FieldError>
+                        <FieldError>{errors["name"]?.message}</FieldError>
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="description">Description</FieldLabel>
@@ -82,6 +82,7 @@ export function CreateWebProjectForm({service}:Props) {
                         className="resize-none"
                         {...register("description")}
                         />
+                        <FieldError>{errors["description"]?.message}</FieldError>
                     </Field>
                     <Field>
                         <FieldLabel htmlFor="projectType">Project Type</FieldLabel>
@@ -112,6 +113,7 @@ export function CreateWebProjectForm({service}:Props) {
                                     ))}
                                     </SelectContent>
                                 </Select>
+                                <FieldError>{errors["frontendTech"]&&errors["frontendTech"]?.message}</FieldError>
                             </Field>
                         </FieldGroup>
                         ):projectType==="backend"?(
@@ -129,6 +131,7 @@ export function CreateWebProjectForm({service}:Props) {
                                             ))}
                                             </SelectContent>
                                         </Select>
+                                        <FieldError>{errors["backendTech"]&&errors["backendTech"]?.message}</FieldError>
                                     </Field>
                                     <Field>
                                         <FieldLabel htmlFor="database">Database</FieldLabel>
@@ -142,6 +145,7 @@ export function CreateWebProjectForm({service}:Props) {
                                             ))}
                                             </SelectContent>
                                         </Select>
+                                        <FieldError>{errors["database"]&&errors["database"]?.message}</FieldError>
                                     </Field>
                                 </div>
                             </FieldGroup>
@@ -160,6 +164,7 @@ export function CreateWebProjectForm({service}:Props) {
                                             ))}
                                             </SelectContent>
                                         </Select>
+                                        <FieldError>{errors["frontendTech"]&&errors["frontendTech"]?.message}</FieldError>
                                     </Field>
                                     <Field>
                                         <FieldLabel htmlFor="backendTech">Backend</FieldLabel>
@@ -173,6 +178,7 @@ export function CreateWebProjectForm({service}:Props) {
                                             ))}
                                             </SelectContent>
                                         </Select>
+                                        <FieldError>{errors["backendTech"]&&errors["backendTech"]?.message}</FieldError>
                                     </Field>
                                 </div>
                                 <Field>
@@ -187,6 +193,7 @@ export function CreateWebProjectForm({service}:Props) {
                                         ))}
                                         </SelectContent>
                                     </Select>
+                                    <FieldError>{errors["database"]&&errors["database"]?.message}</FieldError>
                                 </Field>
                             </FieldGroup>
                         ):projectType==="mobileapp"?(                    
@@ -202,6 +209,7 @@ export function CreateWebProjectForm({service}:Props) {
                                                 <SelectItem value="React">React Native</SelectItem>
                                             </SelectContent>
                                         </Select>
+                                        <FieldError>{errors["frontendTech"]&&errors["frontendTech"]?.message}</FieldError>
                                     </Field>
                                     <Field>
                                         <FieldLabel htmlFor="backendTech">Backend</FieldLabel>
@@ -215,6 +223,7 @@ export function CreateWebProjectForm({service}:Props) {
                                             ))}
                                             </SelectContent>
                                         </Select>
+                                        <FieldError>{errors["backendTech"]&&errors["backendTech"]?.message}</FieldError>
                                     </Field>
                                 </div>
                                 <Field>
@@ -229,6 +238,7 @@ export function CreateWebProjectForm({service}:Props) {
                                         ))}
                                         </SelectContent>
                                     </Select>
+                                    <FieldError>{errors["database"]&&errors["database"]?.message}</FieldError>
                                 </Field>
                             </FieldGroup>):(
                             <FieldGroup>
@@ -244,6 +254,7 @@ export function CreateWebProjectForm({service}:Props) {
                                         ))}
                                         </SelectContent>
                                     </Select>
+                                    <FieldError>{errors["language"]&&errors["language"]?.message}</FieldError>
                                 </Field>
                             </FieldGroup>
                         )
@@ -296,6 +307,7 @@ export function CreateMentorProjectForm({service}:Props){
                                 ))}
                                 </SelectContent>
                             </Select>
+                            <FieldError>{errors["technology"]&&errors["technology"]?.message}</FieldError>
                         </Field>
                         <Field>
                             <FieldLabel htmlFor="domain">Domain</FieldLabel>
@@ -309,6 +321,7 @@ export function CreateMentorProjectForm({service}:Props){
                                 ))}
                                 </SelectContent>
                             </Select>
+                            <FieldError>{errors["domain"]&&errors["domain"]?.message}</FieldError>
                         </Field>
                     </FieldGroup>
                     <FieldSeparator />
@@ -351,6 +364,7 @@ export function CreateOtherProjectForm({service}:Props){
                         <Field>
                             <FieldLabel htmlFor="projectName">Project Name</FieldLabel>
                             <Input type="text" {...register("projectName")} />
+                            <FieldError>{errors["projectName"]?.message}</FieldError>
                         </Field>
                         <Field>
                             <FieldLabel htmlFor="projectType">Project Type</FieldLabel>
@@ -364,6 +378,7 @@ export function CreateOtherProjectForm({service}:Props){
                                 ))}
                                 </SelectContent>
                             </Select>
+                            <FieldError>{errors["projectType"]&&errors["projectType"]?.message}</FieldError>
                         </Field>
                     </FieldGroup>
                     <FieldSeparator/>
@@ -371,6 +386,7 @@ export function CreateOtherProjectForm({service}:Props){
                         <Field>
                             <FieldLabel htmlFor="description">Description</FieldLabel>
                             <Textarea {...register("description")}/>
+                            <FieldError>{errors["description"]?.message}</FieldError>
                         </Field>
                     </FieldGroup>
                     <FieldSeparator />

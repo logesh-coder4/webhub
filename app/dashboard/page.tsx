@@ -1,12 +1,65 @@
+'use client'
 import { MentorshipCard } from '@/components/dashboard/MentorshipCard'
 import { NotificationsWidget } from '@/components/dashboard/NotificationWidget'
 import { ProjectCard } from '@/components/dashboard/ProjectCard'
 import { StatsCard } from '@/components/dashboard/StatsCard'
 import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
+import { getUserProjects } from '@/data/project'
+import { OtherProjects, WebProjects } from '@/lib/generated/prisma/client'
+import { timeSince } from '@/lib/time-stamps'
 import { CheckCircle, FolderKanban, Plus, Rocket, Users } from 'lucide-react'
-import React from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
+
+type ProjectCountType={
+    totalProjectsCount:number|undefined|0
+    otherProjectsCount:number|undefined|0
+    webProjectsCount:number|undefined|0
+    completed:number|undefined|0
+    ongoing:number|undefined|0
+}
+
+const WebProjectSkeleton=()=>{
+    return (
+        <Skeleton>
+            <div className="space-y-4">
+                {/* Header */}
+                <div className="flex items-start justify-between">
+                <div>
+                    <Skeleton/>
+                    <Skeleton/>
+                </div>
+                <Skeleton className='rounded-full' />
+                </div>
+
+                {/* Date */}
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <Skeleton/>
+                    <Skeleton/>
+                </div>
+
+                {/* Action */}
+                <Skeleton className='w-80'/>
+            </div>
+        </Skeleton>
+    )
+}
 
 const Dashboard = () => {
+    const [projectCount,setProjectCount]=useState<ProjectCountType>()
+    const [webProjects,setWebProjects]=useState<WebProjects[]>([])
+    const [otherProjects,setOtherProjects]=useState<OtherProjects[]>([])
+    useEffect(()=>{
+        const fetchData=async () => {
+            const {totalProjectsCount,otherProjectsCount,webProjectsCount,isSuccess,webProjects,otherProjects,completed,ongoing}=await getUserProjects()
+            if (isSuccess) {
+                setProjectCount({totalProjectsCount,otherProjectsCount,webProjectsCount,completed,ongoing})
+                setWebProjects(webProjects!)
+                setOtherProjects(otherProjects!)
+            }
+        }
+        fetchData()
+    },[])
     return (
     <div className="flex-1 flex flex-col mt-10">
         {/* Dashboard Content */}
@@ -22,28 +75,28 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <StatsCard
                 title="Total Projects"
-                value={24}
+                value={projectCount?.totalProjectsCount!}
                 icon={FolderKanban}
                 colorClass="bg-[hsl(var(--stats-card-1))]"
                 iconColorClass="bg-[hsl(var(--stats-icon-1))]"
               />
               <StatsCard
                 title="Completed Projects"
-                value={18}
+                value={projectCount?.completed!}
                 icon={CheckCircle}
                 colorClass="bg-[hsl(var(--stats-card-2))]"
                 iconColorClass="bg-[hsl(var(--stats-icon-2))]"
               />
               <StatsCard
                 title="Active Projects"
-                value={6}
+                value={projectCount?.webProjectsCount!}
                 icon={Rocket}
                 colorClass="bg-[hsl(var(--stats-card-3))]"
                 iconColorClass="bg-[hsl(var(--stats-icon-3))]"
               />
               <StatsCard
                 title="Ongoing Mentorships"
-                value={12}
+                value={projectCount?.ongoing!}
                 icon={Users}
                 colorClass="bg-[hsl(var(--stats-card-4))]"
                 iconColorClass="bg-[hsl(var(--stats-icon-4))]"
@@ -65,56 +118,33 @@ const Dashboard = () => {
 
                 {/* Projects Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <ProjectCard
-                    name="E-commerce Platform"
-                    domain="Fullstack"
-                    status="Active"
-                    createdDate="Jan 15, 2025"
-                  />
-                  <ProjectCard
-                    name="Mobile App UI"
-                    domain="Frontend"
-                    status="In Progress"
-                    createdDate="Jan 10, 2025"
-                  />
-                  <ProjectCard
-                    name="REST API Service"
-                    domain="Backend"
-                    status="Completed"
-                    createdDate="Dec 28, 2024"
-                  />
-                  <ProjectCard
-                    name="Analytics Dashboard"
-                    domain="Fullstack"
-                    status="Active"
-                    createdDate="Jan 5, 2025"
-                  />
+                    {webProjects.map(project=>
+                        (<ProjectCard
+                        key={project.id}
+                        name={project.name}
+                        domain={project.service!}
+                        status={project.status}
+                        createdDate={timeSince(project.createdAt)!}
+                        secreatKey={project.secreatKey!}
+                        modal={project.model!}
+                    />)
+                        )}
                 </div>
 
                 {/* Mentorship Section */}
                 <div className="space-y-4 pt-4">
                   <h2 className="text-2xl font-bold">Mentorship</h2>
                   <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-thin">
+                    {otherProjects.map(project=>                    
                     <MentorshipCard
-                      name="Sarah Johnson"
-                      role="Mentee"
-                      progress={65}
-                      nextMeeting="Tomorrow, 3:00 PM"
-                      avatarSeed="sarah"
-                    />
-                    <MentorshipCard
-                      name="Michael Chen"
-                      role="Mentee"
-                      progress={42}
-                      nextMeeting="Friday, 10:00 AM"
-                      avatarSeed="michael"
-                    />
-                    <MentorshipCard
-                      name="Dr. Emily Davis"
-                      role="Mentor"
-                      nextMeeting="Next Monday, 2:00 PM"
-                      avatarSeed="emily"
-                    />
+                        key={project.id}
+                        name={project.domain?project.domain!:project.projectName!}
+                        role={project.service!}
+                        projectType={project.projectType!}
+                        progress={65}
+                        secreatKey={project.secreatKey!}
+                        modal={project.model!}
+                    />)}
                   </div>
                 </div>
               </div>

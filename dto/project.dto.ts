@@ -42,6 +42,9 @@ export const FullStackSchema=z.object({
 }).extend(WebCommanSchema.shape)
 
 export const MobileAppSchema=z.object({
+    frontendTech:z.enum(FrontendTech),
+    backendTech:z.enum(BackendTech),
+    database:z.enum(Database),
     ztype:z.literal('mobileapp')
 })
 
