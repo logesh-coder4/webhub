@@ -78,7 +78,7 @@ export default function AdminSedebar() {
                             <SidebarGroupContent>
                                 <SidebarMenu>
                                 {items.map((item) => (
-                                    <SidebarMenuItem key={item.title}>
+                                    <SidebarMenuItem key={item.title} className="hover:bg-[#252525] " >
                                     <SidebarMenuButton asChild>
                                         <a href={item.url}>
                                         <item.icon />

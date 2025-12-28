@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card'
 import { Button } from '../ui/button'
 import { Trash } from 'lucide-react'
@@ -7,6 +7,9 @@ import { IconUpload } from '@tabler/icons-react'
 import { InputFieldType } from '@/lib/inputFields'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
+import { Checkbox } from '../ui/checkbox'
+import { Textarea } from '../ui/textarea'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 
 interface DeleteProps{
     handleDelete:()=>void
@@ -45,6 +48,88 @@ export const DeleteModal = ({handleDelete,handleClose}:DeleteProps) => {
     )
 }
 
+type FieldProps={
+    type:string
+    inputType:string
+    name:string
+    title:string
+    options:any[]
+}
+
+const ModalField=
+    ({field,data,setData}:
+    {field:FieldProps,
+        data:any,
+        setData:Dispatch<SetStateAction<any>>
+    })=>{
+    return(
+        <>
+            {
+                field.type==="input"?(
+                    <div className="space-y-2 col-span-12 md:col-span-6">
+                        <Label htmlFor={field.name}>{field.title}</Label>
+                        <Input name={field.name} type={field.inputType} value={data&&data[field.name]?data[field.name]:""} onChange={(e)=>{
+                            const value=field.inputType==="number"?Number(e.target.value):e.target.value
+                            setData((prev:any)=>
+                            {
+                                return{...prev,[field.name]:value}
+                            })
+                        }}/>
+                    </div>
+                ):field.type==="fullInput"?(
+                    <div className="space-y-2 col-span-12">
+                        <Label htmlFor={field.name}>{field.title}</Label>
+                        <Input name={field.name} type={field.inputType}  value={data?data[field.name]:""} onChange={(e)=>{
+                            const value=field.inputType==="number"?Number(e.target.value):e.target.value
+                            setData((prev:any)=>
+                            {
+                                return{...prev,[field.name]:value}
+                            })
+                        }}/>
+                    </div>
+                ):field.type==="checkbox"?(
+                    <div className="flex items-center justify-center space-x-2 col-span-12 md:col-span-4">
+                        <Label htmlFor={field.name}>{field.title}</Label>
+                        <Checkbox name={field.name} checked={data&&data[field.name]&&data[field.name]} onCheckedChange={(d)=>{
+                            setData((prev:any)=>
+                            {
+                                return{...prev,[field.name]:d}
+                            })
+                        }}/>
+                    </div>
+                ):field.type==="textarea"?(
+                    <div className="space-y-2 col-span-12">
+                        <Label htmlFor={field.name}>{field.title}</Label>
+                        <Textarea name={field.name} value={data?data[field.name]:""} onChange={(e)=>{
+                            setData((prev:any)=>
+                            {
+                                return{...prev,[field.name]:e.target.value}
+                            })
+                        }}/>
+                    </div>
+                ):field.type==="select"?(
+                <div className="space-y-2 col-span-12 md:col-span-4 ">
+                    <Label htmlFor={field.name}>{field.title}</Label>
+                    <Select value={data&&data[field.name]&&data[field.name]} onValueChange={(data)=>{setData((prev:any)=>
+                            {
+                                return{...prev,[field.name]:data}
+                            })}}>
+                        <SelectTrigger id={field.name} className='w-full'>
+                            <SelectValue placeholder={field.title} />
+                        </SelectTrigger>
+                        <SelectContent>
+                        {field.options.map((option,idx)=>(
+                            <SelectItem key={idx} value={option}>{option}</SelectItem>
+                        ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+                ):<></>
+            }
+        </>
+    )
+}
+
 export const UpdateModal = <T,>({handleUpdate,handleClose,rawData,fields}:UpdateProps<T>) => {
     const [data,setData]=useState<T>()
     useEffect(()=>{
@@ -52,34 +137,26 @@ export const UpdateModal = <T,>({handleUpdate,handleClose,rawData,fields}:Update
     },[rawData])
     return (
         <ModalOverlay>
-            <Card className='max-w-md w-full'>
-                <ScrollArea className='h-[70vh]'>
-                    <CardHeader>
-                        <CardTitle>Are You Sure Want To Update?</CardTitle>
-                        <CardDescription>the data is updated</CardDescription>
-                    </CardHeader>
-                    <CardContent className='space-y-4 p-2'>
+            <Card className='max-w-2xl w-full'>
+                <CardHeader>
+                    <CardTitle>Are You Sure Want To Update?</CardTitle>
+                    <CardDescription>the data is updated</CardDescription>
+                </CardHeader>
+                <ScrollArea className='h-[40vh]'>
+                    <CardContent className='space-y-4 p-2 grid grid-cols-12 gap-3'>
                         {fields.map((field,idx)=>{
                             return(
-                                <div className="" key={idx}>
-                                    <Label htmlFor={field.name}>{field.title}</Label>
-                                    <Input name={field.name} value={data?data[field.name]:""} onChange={(e)=>{
-                                        setData((prev:any)=>
-                                        {
-                                            return{...prev,[field.name]:e.target.value}
-                                        })
-                                    }}/>
-                                </div>
+                                <ModalField key={idx} field={field} data={data} setData={setData} />
                             )
                         })}
                     </CardContent>
-                    <CardFooter className='gap-2 p-2'>
-                        <Button onClick={()=>{
-                            handleUpdate(data!)
-                        }}><IconUpload className='text-white'/>Update</Button>
-                        <Button onClick={handleClose}>Cancel</Button>
-                    </CardFooter>
                 </ScrollArea>
+                <CardFooter className='gap-2 p-2'>
+                    <Button onClick={()=>{
+                        handleUpdate(data!)
+                    }}><IconUpload className='text-text'/>Update</Button>
+                    <Button onClick={handleClose} variant="outline">Cancel</Button>
+                </CardFooter>
             </Card>
         </ModalOverlay>  
     )

@@ -23,13 +23,12 @@ export const userLogin=async(data:FormData)=>{
 }
 
 export const registerUser=async(data:SignUpType)=>{
-    const user=await createUser(data)
-    if (!user.isSuccess) {
-        return {
-            error:user.error,
-            isSuccess:user.isSuccess
-        }
+    try {
+        const user=await createUser(data)
+    } catch (error:any) {
+       return {error:error}
     }
+    redirect('/login')
 }
 
 

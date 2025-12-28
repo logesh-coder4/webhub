@@ -2,11 +2,11 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MessageCircle, Calendar } from "lucide-react";
 import { ProjectType } from "@/lib/generated/prisma/enums";
+import { Progress } from "../ui/progress";
 import { useRouter } from "next/navigation";
-// import { Progress } from "@/components/ui/progress";
+
 
 interface MentorshipCardProps {
   name: string;
@@ -26,7 +26,7 @@ export function MentorshipCard({ name, role, progress,projectType,secreatKey,mod
         <div className="flex items-center gap-3">
           <div className="flex-1">
             <h4 className="font-semibold">{name}</h4>
-            <Badge variant="secondary" className="text-xs mt-1">
+            <Badge variant="secondary" className="text-xs mt-1 capitalize animate-pulse">
               {role}
             </Badge>
           </div>
@@ -39,7 +39,7 @@ export function MentorshipCard({ name, role, progress,projectType,secreatKey,mod
               <span>Progress</span>
               <span className="font-medium text-foreground">{progress}%</span>
             </div>
-            {/* <Progress value={progress} className="h-2" /> */}
+            <Progress value={progress} className="h-2" />
           </div>
         )}
 
@@ -52,7 +52,8 @@ export function MentorshipCard({ name, role, progress,projectType,secreatKey,mod
         )}
 
         {/* Action */}
-        <Button size="sm" className="w-full rounded-xl gap-2" variant="outline" onClick={()=>router.push(`/project/${secreatKey}/?type=${modal}`)}>
+        
+        <Button size="sm" className="w-full rounded-xl gap-2" variant="outline" onClick={()=>router.push(`/project/${secreatKey}/?type=${modal}`)} >
           <MessageCircle className="w-4 h-4" />
           Message
         </Button>

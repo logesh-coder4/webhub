@@ -1,4 +1,4 @@
-import { ProjectType,Domain,FrontendTech,BackendTech,Language,Database  } from '@/lib//generated/prisma/enums'
+import { ProjectType,Domain,FrontendTech,BackendTech,Language,Database  } from '@/lib/generated/prisma/enums'
 import z from 'zod'
 
 export const MentorProjectSchema=z.object({

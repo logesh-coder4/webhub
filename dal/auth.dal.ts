@@ -11,10 +11,10 @@ export const createUser=async(userData:SignUpType)=>{
         const isAlreadyUserExists=await db.user.findUnique({where:{email:email}})
         const isAlreadyUserNameExists=await db.user.findFirst({where:{username:username}})
         if (isAlreadyUserExists){
-            return {isSuccess:false,error:"User with this email already exists"}
+            throw new Error("User with this email already exists")
         }
         if (isAlreadyUserNameExists){
-            return {isSuccess:false,error:"Username already exists so choose different one"}
+            throw new Error("Username already exists so choose different one")
         }
         const hashedPassword=await hashPassword(password)
         const user=await db.user.create({data:{
@@ -22,15 +22,15 @@ export const createUser=async(userData:SignUpType)=>{
             email:email,
             password:hashedPassword
         }})
-        return {
-            isSuccess:true,
+            return {
             username:user.username,
             email:user.email,
             isSuperUser:user.isSuperUser,
             isAdmin:user.isAdmin,
-        }
+            }
+
     } catch (error:any) {
-        return {isSuccess:false,error:error?.message}
+        throw new Error(error.message)
     }
 }
 

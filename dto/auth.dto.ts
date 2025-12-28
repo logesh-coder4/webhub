@@ -1,3 +1,4 @@
+import { UserProfession } from "@/lib/generated/prisma/enums";
 import z from "zod";
 
 export const SignUpSchema=z.object({
@@ -11,9 +12,10 @@ export const SignUpSchema=z.object({
     .regex(/[0-9]/,'Contains atleast one number')
     .regex(/[^A-Za-z0-9]/,'Contains atleast one spcial character'),
     confirmPassword:z.string(),
+    profession:z.enum(UserProfession)
 }).refine(
     (data)=>data.password===data.confirmPassword,
-    {error:"Password do not match",path:["confirmPassword"]}
+    {error:"Password do not match",path:["confirmPassword"]},
 )
 
 

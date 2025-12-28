@@ -1,18 +1,7 @@
 'use client'
 
-import { Tag, ArrowRight } from "lucide-react";
-import { Button } from "./ui/button";
+import { Tag } from "lucide-react";
 
-/**
- * BlogCard props:
- * - category: string
- * - title: string
- * - description: string
- * - authorName: string
- * - authorAvatarUrl?: string (optional)
- * - date: string (ISO or friendly)
- * - onReadMore?: () => void
- */
 export default function BlogCard({
   category = "Uncategorized",
   title = "Untitled Post",
@@ -74,18 +63,6 @@ export default function BlogCard({
             <div className="text-sm font-medium text-slate-900 dark:text-slate-100">{user.username}</div>
             <div className="text-xs text-slate-500 dark:text-slate-400">{formattedDate}</div>
           </div>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <Button
-            // onClick={onReadMore}
-            className="inline-flex items-center gap-2 text-sm font-medium text-indigo-600 dark:text-indigo-300 hover:underline"
-            aria-label={`Read more about ${title}`}
-            type="button"
-          >
-            Read more
-            <ArrowRight className="w-4 h-4" />
-          </Button>
         </div>
       </footer>
     </article>

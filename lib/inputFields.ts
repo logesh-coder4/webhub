@@ -150,6 +150,12 @@ export const otherProjectFields=[
         title:"TaskType"
     },
     {
+        type:"input",
+        inputType:"number",
+        name:'progress',
+        title:"Progress"
+    },
+    {
         type:"select",
         name:"service",
         title:"service",
@@ -181,6 +187,11 @@ export const testimonialsFields=[
         type:"checkbox",
         name:'isApproved',
         title:"isApproved"
+    },
+    {
+        type:"input",
+        name:'ratings',
+        title:"ratings"
     },
 ]
 

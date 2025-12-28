@@ -2,33 +2,26 @@
 import {db} from "@/lib/db"
 import { getSession } from "@/lib/getSession";
 
-interface TestimonialReturnType{
-    quote:string,
-    name:string
-}
-
 export const getTestimonials=async () => {
     try {
-        const testimonisals=await db.testimonials.findMany({
+        const testimonials=await db.testimonials.findMany({
             where:{isApproved:true},
-            include:{user:{
+            include:
+            {user:{
                 select:{
-                    username:true
-                }}}
-        })
-        const data:TestimonialReturnType[]=[]
-        testimonisals.forEach((testimonial)=>{
-            const newTestimonial={
-                quote:testimonial.message,
-                name:testimonial.user.username
+                    username:true,
+                    profession:true
+                }}
             }
-            data.push(newTestimonial)
         })
-        return data
+        return {
+            data:testimonials,
+            error:""
+        }
     } catch (error) {
         return {
-            type:"error",
-            error:error
+            error:error,
+            data:[]
         }
     }
 }

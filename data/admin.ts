@@ -1,12 +1,12 @@
 'use server'
 
 import {db} from "@/lib/db"
-// import { cacheLife, cacheTag } from "next/cache"
+import { cacheLife, cacheTag } from "next/cache"
 
 export const getAllUsers=async ()=>{
-    // 'use cache'
-    // cacheTag("users")
-    // cacheLife("hours")
+    'use cache'
+    cacheTag("users")
+    cacheLife("hours")
     const users=await db.user.findMany()
     return users
 }

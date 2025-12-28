@@ -1,7 +1,10 @@
 "use client"
+import { projectIsverified } from '@/actions/projectActions'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Spinner } from '@/components/ui/spinner'
 import { Message } from '@/lib/generated/prisma/client'
-import { ImageIcon, Send } from 'lucide-react'
+import { CheckCircle2, ImageIcon, Send } from 'lucide-react'
 import { useSession } from 'next-auth/react'
 import { useParams, useSearchParams } from 'next/navigation'
 import Pusher from 'pusher-js'
@@ -15,11 +18,22 @@ const ProjectDetails = () => {
     const [messages,setMessages]=useState<Message[]>([])
 
     const [input, setInput] = useState<string>("");
+    const [verified, setVerified] = useState<boolean>(false);
     const session=useSession()
+
+    useEffect(()=>{
+        const func=async()=>{
+            const result=await projectIsverified(key!,type)
+            if (result) {
+                setVerified(true)
+            }
+        }
+        func()
+    },[type,key])
 
     const sendMessage = async() => {
         if (!input.trim()) return;
-        const data=await fetch(`/api/message?type=${type}`,{
+        await fetch(`/api/message?type=${type}`,{
             method:"POST",
             body:JSON.stringify({
                 text:input,
@@ -49,6 +63,18 @@ const ProjectDetails = () => {
             channel.unsubscribe()
         }
     },[key])
+    if (!verified) {
+        return (<div className='h-screen w-full flex items-center justify-center'>
+            <Card className='w-full max-w-2xs border-2 shadow-lg border-stone-300 dark:border-neutral-700'>
+                <CardHeader>
+                    <CardTitle className='text-center'>{verified?"Verified":"Wait for approval"}</CardTitle>
+                </CardHeader>
+                <CardContent className="flex justify-center items-center">
+                    {verified?<CheckCircle2 className='text-emerald-500'/>:<Spinner className='size-8 text-blue-600'/>}
+                </CardContent>
+            </Card>
+        </div>)
+    }
 
     return (
             <div className='h-[93vh]'>

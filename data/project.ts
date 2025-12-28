@@ -39,6 +39,7 @@ export const getUserProjects=async () => {
         const otherProjectsCount=otherProjects.length
         const totalProjectsCount=webProjectsCount+otherProjectsCount
         const ongoing=webProjects.filter(proj=>proj.status==="ongoing").length
+        const upcoming=webProjects.filter(proj=>proj.status==="upcoming").length
         const completed=webProjects.filter(proj=>proj.status==="completed").length
         return {
             isSuccess:true,
@@ -48,7 +49,8 @@ export const getUserProjects=async () => {
             otherProjectsCount,
             ongoing,
             completed,
-            totalProjectsCount
+            totalProjectsCount,
+            upcoming
         }
     } catch (error:Error|any) {
         return {

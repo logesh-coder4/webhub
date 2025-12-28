@@ -1,4 +1,4 @@
-import { BackendTech, Database, Domain, FrontendTech, Language, ProjectStatus, ProjectType } from "./generated/prisma/enums"
+import { BackendTech, Database, Domain, FrontendTech, Language, ProjectStatus, ProjectType, UserProfession } from "./generated/prisma/enums"
 import { NavItemsType } from "./types"
 
 export const webServices=["frontend","backend","fullstack","mobileapp","api","utils","testcase"]
@@ -11,6 +11,7 @@ export const databasees=Object.values(Database)
 export const ptypes=Object.values(ProjectType)
 export const domains=Object.values(Domain)
 export const projectStatus=Object.values(ProjectStatus)
+export const userProfessions=Object.values(UserProfession)
 
 export const navItems:NavItemsType[]=[
     {
@@ -23,6 +24,6 @@ export const navItems:NavItemsType[]=[
     },
     {
         name:'Blog',
-        link:'/blog'
+        link:'/blog/articles'
     },
 ]

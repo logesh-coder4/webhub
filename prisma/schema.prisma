@@ -80,6 +80,14 @@ enum NotificationType{
   change
 }
 
+enum UserProfession{
+  student
+  developer
+  freelancer
+  entrapaneour
+  other
+}
+
 model User{
    id Int @id @default(autoincrement())
    username String
@@ -89,6 +97,7 @@ model User{
    isSuperUser Boolean @default(false)
    isActive Boolean @default(true)
    isAdmin Boolean @default(false)
+   profession UserProfession @default(other)
    testimonials Testimonials[]
    webProjects WebProjects[]
    otherProjects OtherProjects[]
@@ -101,6 +110,7 @@ model Testimonials{
   id Int @id @default(autoincrement())
   message String @db.Text
   userId Int
+  ratings String @default("0")
   isApproved Boolean @default(false)
   user User @relation(fields:[userId],references:[id])
   createdAt DateTime @default(now())
@@ -146,6 +156,7 @@ model OtherProjects{
   timeTaken Int @default(0)
   secreatKey String? @unique
   messages Message[] @relation("OtherProjects")
+  progress Float @default(0)
 }
 
 model Blog{
