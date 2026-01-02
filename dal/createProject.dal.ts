@@ -5,6 +5,7 @@ import {db} from "@/lib/db";
 import { OtherProjects, WebProjects } from "@/lib/generated/prisma/client";
 import {getSession} from "@/lib/getSession";
 import { createSecreatKey } from "@/lib/passkey";
+import { revalidatePath } from "next/cache";
 
 export async function createWebProject(rawData:CreateWebProjectType) {
     const session=await getSession()
@@ -71,8 +72,10 @@ export const createOtherProject=async (data:OtherProjectType) => {
 export const deleteProject=async (id:number,model:'web'|"others") => {
     if (model==='web') {
         await db.webProjects.delete({where:{id}})
+        revalidatePath('/admin/projects/web')
     }else if(model==='others'){
         await db.otherProjects.delete({where:{id}})
+        revalidatePath('/admin/projects/others')
     }
     return {message:"Project Deleted"}
 }
@@ -81,8 +84,28 @@ export const updateProject=async (id:number,model:'web'|"others",data:WebProject
     let project;
     if (model==='web') {
         project=await db.webProjects.update({where:{id},data})
+        if (project.isVerified){
+            await db.notification.create({
+                data:{
+                    message:`Your ${project.name} project has been successfully verified and is ready to proceed`,
+                    title:"Project Verified",
+                    type:"update",
+                    userId:project.userId
+                }
+            })
+        }
+        revalidatePath('/admin/projects/web')
     }else if(model==='others'){
         project=await db.otherProjects.update({where:{id},data})
+            await db.notification.create({
+                data:{
+                    message:`Your ${project.projectName?project.projectName:project.domain} project has been successfully verified and is ready to proceed`,
+                    title:"Project Verified",
+                    type:"update",
+                    userId:project.userId
+                }
+            })
+        revalidatePath('/admin/projects/others')
     }
     return project
 }

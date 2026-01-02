@@ -1,7 +1,14 @@
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Home } from 'lucide-react'
+import { Metadata } from 'next';
 import Link from 'next/link'
 import React from 'react'
+
+export const metadata: Metadata = {
+  title: "Blog",
+  description:
+    "Read articles about web development, Next.js, full-stack engineering, software architecture, and learning guides.",
+};
 
 const BlogLayout = async({children,params}:{children:React.ReactNode,params:any}) => {
     const {path}=await params
@@ -30,7 +37,7 @@ const BlogLayout = async({children,params}:{children:React.ReactNode,params:any}
                         ))}
                     </ScrollArea>
                 </aside>
-                <div className="flex-1 ml-80">
+                <div className="flex-1 ml-30 md:ml-80 lg:ml-80">
                     {children}
                 </div>
             </div>

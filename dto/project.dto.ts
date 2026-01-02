@@ -18,8 +18,8 @@ export type SupportedProjectType=z.infer<typeof SupportedProjectSchema>
 export type OtherProjectType=MentorProjectType & SupportedProjectType
 
 export const WebCommanSchema=z.object({
-    name:z.string().min(4,"Name must be atleast 4 chars"),
-    description:z.string().min(12,'Description contails more than 12 chars'),
+    name:z.string().min(4,"Project name must contain atleast 4 charcters"),
+    description:z.string().min(12,'Project description must contain atleast 12 charcters"'),
     projectType:z.enum(ProjectType),
 })
 

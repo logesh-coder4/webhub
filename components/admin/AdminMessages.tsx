@@ -16,7 +16,7 @@ const AdminMessages = ({data}:{data:Message[]}) => {
 
     const handleDelete=async()=>{
         const message=await deleteMessage(id!)
-        toast.success(message.text)
+        toast.error(`${message.id} is deleted successfully`)
         setOperation(null)
         setId(null)
     }
@@ -26,6 +26,7 @@ const AdminMessages = ({data}:{data:Message[]}) => {
     }
     const handleUpdate=async(rawData:Message) => {
         const message=await updateMessage(id!,rawData)
+        toast.success(`${message?.id} is updated`)
         setUpdateData(message!)
         setOperation(null)
         setId(null)

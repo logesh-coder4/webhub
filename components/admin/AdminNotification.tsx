@@ -16,7 +16,7 @@ const AdminNotifications = ({data}:{data:Notification[]}) => {
 
     const handleDelete=async()=>{
         const notification=await deleteNotification(id!)
-        toast.success(notification.title)
+        toast.error(`${notification.title} is deleted successfully`)
         setOperation(null)
         setId(null)
     }
@@ -26,6 +26,7 @@ const AdminNotifications = ({data}:{data:Notification[]}) => {
     }
     const handleUpdate=async(rawData:Notification) => {
         const notification=await updateNotification(id!,rawData)
+        toast.success(`${notification?.id} is updated`)
         setUpdateData(notification!)
         setOperation(null)
         setId(null)

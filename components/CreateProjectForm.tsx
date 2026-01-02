@@ -59,7 +59,7 @@ export function CreateWebProjectForm({service}:Props) {
     }
   
     return (
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-md p-4 md:p-0 lg:p-0">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FieldGroup>
                 <FieldSet>

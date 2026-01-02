@@ -4,23 +4,6 @@ import Credentials from 'next-auth/providers/credentials'
 import { checkIsUser } from "./lib/passkey"
 import { verifyPassword } from "./lib/passkey"
 
-// declare module "next-auth" {
-//   /**
-//    * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
-//    */
-//   interface Session {
-//     user: {
-//       /** The user's postal address. */
-//       address: string
-//       /**
-//        * By default, TypeScript merges new interface properties and overwrites existing ones.
-//        * In this case, the default session user properties will be overwritten,
-//        * with the new ones defined above. To keep the default session user properties,
-//        * you need to add them back into the newly declared interface.
-//        */
-//     } & DefaultSession["user"]
-//   }
-// }
  
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [Credentials({
@@ -45,14 +28,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
             const user=await checkIsUser(email)
             if (!user) {
-                throw new  Error("user doen not exist");
+                throw new  Error("No account is associated with this email address,Please sugnup first");
             }
             if (!user.password) {
-                throw new  Error('Invalid data')
+                throw new  Error('Please enter your password and continue')
+            }
+            if (!user.isActive) {
+                throw new Error("Your account is not verified yet.Please verify your rmail to continue.")
             }
             const isMatched=await verifyPassword(password,user.password)
             if (!isMatched) {
-                throw new Error("the provided password was wrong");
+                throw new Error("The email or password you entered is incorrect.Please try again");
             }
             const userData={
                 id:user.id,

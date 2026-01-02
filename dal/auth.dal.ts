@@ -1,9 +1,10 @@
 'use server'
+import { sendVerificationMail } from "@/actions/sendVerifications"
 import { SignUpType } from "@/dto/auth.dto"
 import {db} from "@/lib/db"
 import { User } from "@/lib/generated/prisma/client"
 import { hashPassword } from "@/lib/passkey"
-import { revalidateTag } from "next/cache"
+import { revalidatePath, revalidateTag } from "next/cache"
 
 export const createUser=async(userData:SignUpType)=>{
     try {
@@ -11,10 +12,10 @@ export const createUser=async(userData:SignUpType)=>{
         const isAlreadyUserExists=await db.user.findUnique({where:{email:email}})
         const isAlreadyUserNameExists=await db.user.findFirst({where:{username:username}})
         if (isAlreadyUserExists){
-            throw new Error("User with this email already exists")
+            throw new Error("An account with this email already exists")
         }
         if (isAlreadyUserNameExists){
-            throw new Error("Username already exists so choose different one")
+            throw new Error("Username is already taken.Please choose a different username")
         }
         const hashedPassword=await hashPassword(password)
         const user=await db.user.create({data:{
@@ -22,6 +23,7 @@ export const createUser=async(userData:SignUpType)=>{
             email:email,
             password:hashedPassword
         }})
+        sendVerificationMail(user.id,user.email)
             return {
             username:user.username,
             email:user.email,
@@ -41,6 +43,7 @@ export const deleteUser=async (id:number) => {
     }
     await db.user.delete({where:{id}})
     revalidateTag('users',"max")
+    revalidatePath('/admin/users')
     return {message:"User deleted successfully"}
 }
 export const updateUser=async (id:number,data:User) => {
@@ -55,5 +58,6 @@ export const updateUser=async (id:number,data:User) => {
         data
     })
     revalidateTag('users',"max")
+    revalidatePath('/admin/users')
     return updatedUser
 }

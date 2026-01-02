@@ -8,6 +8,7 @@ CREATE TABLE `User` (
     `isSuperUser` BOOLEAN NOT NULL DEFAULT false,
     `isActive` BOOLEAN NOT NULL DEFAULT true,
     `isAdmin` BOOLEAN NOT NULL DEFAULT false,
+    `profession` ENUM('student', 'developer', 'freelancer', 'entrapaneour', 'other') NOT NULL DEFAULT 'other',
 
     UNIQUE INDEX `User_email_key`(`email`),
     PRIMARY KEY (`id`)
@@ -18,6 +19,7 @@ CREATE TABLE `Testimonials` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `message` TEXT NOT NULL,
     `userId` INTEGER NOT NULL,
+    `ratings` VARCHAR(191) NOT NULL DEFAULT '0',
     `isApproved` BOOLEAN NOT NULL DEFAULT false,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
@@ -36,7 +38,7 @@ CREATE TABLE `WebProjects` (
     `backendTech` ENUM('Random', 'Django', 'FastApi', 'Flask', 'Express', 'NextJs') NULL,
     `database` ENUM('Random', 'MySql', 'Postgress', 'MongoDB') NULL,
     `language` ENUM('Python', 'JavaScript', 'TypeScript') NULL,
-    `service` ENUM('frontend', 'backend', 'fullstack', 'mobileapp', 'utils', 'testcase') NULL,
+    `service` ENUM('frontend', 'backend', 'fullstack', 'mobileapp', 'utils', 'api', 'testcase') NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `isVerified` BOOLEAN NOT NULL DEFAULT false,
     `price` DOUBLE NOT NULL DEFAULT 0.0,
@@ -65,6 +67,7 @@ CREATE TABLE `OtherProjects` (
     `price` DOUBLE NOT NULL DEFAULT 0.0,
     `timeTaken` INTEGER NOT NULL DEFAULT 0,
     `secreatKey` VARCHAR(191) NULL,
+    `progress` DOUBLE NOT NULL DEFAULT 0,
 
     UNIQUE INDEX `OtherProjects_secreatKey_key`(`secreatKey`),
     PRIMARY KEY (`id`)

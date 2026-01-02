@@ -1,4 +1,5 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+'use client'
+import { Home, Inbox } from "lucide-react"
 
 import {
   Sidebar,
@@ -10,11 +11,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { useSearchParams } from "next/navigation"
+import { useParams, useSearchParams } from "next/navigation"
 
-// Menu items.
-
-export default function ProjectSidebar({secreatKey,projectType}:{secreatKey:string,projectType:string}) {
+export default function ProjectSidebar() {
+  const {key:secreatKey}=useParams()
+  const searchParams=useSearchParams()
+  const projectType=searchParams.get("type") as "web"|"others"
   const items = [
   {
     title: "Home",

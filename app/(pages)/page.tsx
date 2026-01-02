@@ -1,4 +1,3 @@
-'use server'
 import ChooseUsSection from "@/components/home/ChooseUsSection";
 import HeroSection from "@/components/home/HeroSection";
 import ServiceSection from "@/components/home/ServiceSection";
@@ -34,9 +33,11 @@ const Home = async() => {
         <TechWeProvided/>
         <section className="w-full py-20 bg-neutral-50 dark:bg-neutral-950">
             <div className="max-w-7xl mx-auto px-6">
+                {data.data.length!==0&&
                 <h2 className="text-center text-4xl font-bold mb-12">
-                What Our <span className="text-indigo-600">Clients Say</span>
+                    What Our <span className="text-indigo-600">Clients Say</span>
                 </h2>
+                }
                 <div className="grid md:grid-cols-3 gap-8">
                     <Suspense fallback={<TestimonialSkeleton/>}>
                         <Testimonials reviews={data.data} />

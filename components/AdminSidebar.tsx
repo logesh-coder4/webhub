@@ -12,7 +12,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible"
-import { IconNotification } from "@tabler/icons-react"
+import { IconDashboard, IconNotification } from "@tabler/icons-react"
 
 // Menu items.
 const links = {
@@ -61,7 +61,7 @@ export default function AdminSedebar() {
   return (
     <Sidebar collapsible="icon">
         <SidebarHeader className="flex justify-center pb-0">
-            <h2 className="font-bold px-4 pt-1">AdminPanel</h2>
+            <h2 className="font-bold px-4 pt-1"><IconDashboard/></h2>
         </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>

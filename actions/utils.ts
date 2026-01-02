@@ -2,8 +2,6 @@
 import { db } from "@/lib/db";
 import { Notification } from "@/lib/generated/prisma/client";
 import { getSession } from "@/lib/getSession";
-import { headers } from "next/headers";
-import { string } from "zod";
 
 export async function checkProjectUser(key:string,projectType:"web"|"others") {
     const session=await getSession()

@@ -95,8 +95,10 @@ model User{
    password String
    joinedAt DateTime @default(now())
    isSuperUser Boolean @default(false)
-   isActive Boolean @default(true)
+   isActive Boolean @default(false)
    isAdmin Boolean @default(false)
+   resetToken String? 
+   resetTokenExpires DateTime?
    profession UserProfession @default(other)
    testimonials Testimonials[]
    webProjects WebProjects[]
@@ -104,6 +106,15 @@ model User{
    Blogs Blog[]
    message Message[]
    notifications Notification[]
+   token VerificationToken?
+}
+
+model VerificationToken{
+  id String @id @default(uuid())
+  token String @unique
+  userId Int @unique
+  expiresAt DateTime
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
 }
 
 model Testimonials{
@@ -112,7 +123,7 @@ model Testimonials{
   userId Int
   ratings String @default("0")
   isApproved Boolean @default(false)
-  user User @relation(fields:[userId],references:[id])
+  user User @relation(fields:[userId],references:[id],onDelete: Cascade)
   createdAt DateTime @default(now())
 }
 
@@ -122,7 +133,7 @@ model WebProjects{
   name String
   description String @db.Text
   userId  Int 
-  user User @relation(fields: [userId],references: [id])
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
   projectType ProjectType @default(Others)
   frontendTech FrontendTech?
   backendTech BackendTech?
@@ -151,7 +162,7 @@ model OtherProjects{
   createdAt DateTime @default(now())
   isVerified Boolean @default(false)
   userId  Int 
-  user User @relation(fields: [userId],references: [id])
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
   price Float @default(0.0)
   timeTaken Int @default(0)
   secreatKey String? @unique
@@ -165,7 +176,7 @@ model Blog{
   description String @db.Text
   isPublished Boolean @default(false)
   userId  Int 
-  user User @relation(fields: [userId],references: [id])
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
   createdAt DateTime @default(now())
 }
 
@@ -173,7 +184,7 @@ model Message{
   id Int @id @default(autoincrement())
   text String
   senderId Int
-  sender User @relation(fields: [senderId],references: [id])
+  sender User @relation(fields: [senderId],references: [id],onDelete: Cascade)
   webProjectKey String?
   otherProjectKey String?
   webProject WebProjects? @relation("WebProjects",fields: [webProjectKey],references: [secreatKey])
@@ -188,6 +199,6 @@ model Notification{
   userId  Int 
   isRead Boolean @default(false)
   type NotificationType?
-  user User @relation(fields: [userId],references: [id])
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
   createdAt DateTime @default(now())
 }

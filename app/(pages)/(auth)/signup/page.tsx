@@ -25,7 +25,7 @@ const SignUp = () => {
     })
     const session=useSession()
     const router=useRouter()
-    if (session.status==="unauthenticated") {
+    if (session.status==="authenticated") {
         router.replace('/')
     }
     const handleClick=async(data:SignUpType)=>{
@@ -34,7 +34,7 @@ const SignUp = () => {
             if (response.error) {
                 toast.error(response.error.message)
             }else{
-            toast.success("Logged Successfully....")}
+            toast.success("Verification email has been sent to your registered email address")}
         })
     }
     return(
@@ -93,7 +93,7 @@ const SignUp = () => {
                     </FieldSet>
                     <FieldGroup>
                         <Field>
-                            {isPending?<Button disabled><Spinner/>Signing....</Button>:<Button>SignUp</Button>}
+                            {isPending?<Button disabled><Spinner/>Registering....</Button>:<Button>SignUp</Button>}
                         </Field>
                     </FieldGroup>
                     <FieldSeparator/>

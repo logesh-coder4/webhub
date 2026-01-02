@@ -16,7 +16,7 @@ const AdminTestimonials = ({data}:{data:Testimonials[]}) => {
 
     const handleDelete=async()=>{
         const testimonial=await deleteTestimonial(id!)
-        toast.success(testimonial.message)
+        toast.error(`${testimonial.id} is deleted successfully`)
         setOperation(null)
         setId(null)
     }
@@ -26,6 +26,7 @@ const AdminTestimonials = ({data}:{data:Testimonials[]}) => {
     }
     const handleUpdate=async(rawData:Testimonials) => {
         const testimonial=await updateTestimonial(id!,rawData)
+        toast.success(`${testimonial?.id} is updated`)
         setUpdateData(testimonial!)
         setOperation(null)
         setId(null)

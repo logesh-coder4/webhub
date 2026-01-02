@@ -1,31 +1,21 @@
-'use client'
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { auth } from '@/auth'
+import ServiceCard from '@/components/service/ServiceCard'
 import { ServiceType } from '@/lib/types'
 import { BookOpen, GraduationCap, Layers, Layout, Network, Puzzle, Rocket, ServerCog, Smartphone, TestTube, Users, Wrench } from 'lucide-react'
-import { useSession } from 'next-auth/react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { Metadata } from 'next'
+import { redirect  } from 'next/navigation'
 
-const ServiceCard=({service,projectType}:{service:ServiceType,projectType:string})=>{
-    const router=useRouter()
-    
-    return(
-        <Card className='hover:scale-105 max-w-md w-full' onClick={()=>router.push(`/create-project?type=${projectType}&service=${service.query}`)}>
-            <CardHeader className=''>
-                <CardTitle className='flex gap-2'>{service.icon}{service.name}</CardTitle>
-                <CardDescription className='text-foreground'>{service.description}</CardDescription>
-            </CardHeader>
-        </Card>
-    )
+export const metadata:Metadata={
+    title:"Select Service",
+    description:"Choose from web development, mobile app development, full-stack solutions, APIs, mentorship, and more."
 }
 
-const SelectService = () => {
-    const params=useSearchParams()
-    const session=useSession()
-    const router=useRouter()
-    if (session.status==="unauthenticated") {
-        router.replace('/')
+const SelectService = async({searchParams}:{searchParams:Promise<{type:"web"|"others"}>}) => {
+    const {type:projectType}=await searchParams
+    const session=await auth()
+    if (!session?.user) {
+        redirect('/login')
     }
-    const projectType=params.get("type")
     const webServices:ServiceType[]=[
         {
             name:"Frontend Development",
@@ -96,7 +86,9 @@ const SelectService = () => {
             query:"collab"
         },
     ]
-    if (projectType!=="web"&&projectType!=="others") return
+    if (projectType!=="web"&&projectType!=="others") {
+        redirect('/')
+    }
     return (
     <div className='min-h-screen w-full flex items-center justify-center mt-6 lg:mt-0 md:mt-0'>
         <div className="w-full grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-3 m-10">

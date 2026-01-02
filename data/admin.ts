@@ -12,50 +12,47 @@ export const getAllUsers=async ()=>{
 }
 
 export const getAllWebProjects=async () => {
+    'use cache'
+    cacheTag("webprojects")
+    cacheLife("hours")
     const projects=await db.webProjects.findMany()
     return projects
 }
 
 export const getAllOtherProjects=async () => {
+    'use cache'
+    cacheTag("otherprojects")
+    cacheLife("hours")
     const projects=await db.otherProjects.findMany()
     return projects
 }
 
 export const getAllBlogs=async () => {
+    'use cache'
+    cacheTag("blogs")
+    cacheLife("hours")
     const blogs=await db.blog.findMany()
     return blogs
 }
 
 export const getAllTestimonials=async () => {
+    'use cache'
+    cacheTag("testimonials")
+    cacheLife("hours")
     const testimonials=await db.testimonials.findMany()
     return testimonials
 }
 export const getAllMessages=async () => {
+    'use cache'
+    cacheTag("messages")
+    cacheLife("hours")
     const messages=await db.message.findMany()
     return messages
 }
 export const getAllNotifications=async () => {
+    'use cache'
+    cacheTag("notifications")
+    cacheLife("hours")
     const messages=await db.notification.findMany()
     return messages
-}
-
-export const getUser=async (id:number) => {
-    const user=await db.user.findUnique({where:{id}})
-    return user
-}
-export const getBlog=async (id:number) => {
-    const user=await db.blog.findUnique({where:{id}})
-    return user
-}
-export const getMessage=async (id:number) => {
-    const user=await db.message.findUnique({where:{id}})
-    return user
-}
-export const getNotification=async (id:number) => {
-    const user=await db.notification.findUnique({where:{id}})
-    return user
-}
-export const getTestimonial=async (id:number) => {
-    const user=await db.testimonials.findUnique({where:{id}})
-    return user
 }

@@ -1,15 +1,3 @@
-// import { SignUpType } from "@/dto/registerDto.dto";
-// import { useForm} from "react-hook-form";
-
-// export interface SignUpProps{
-//     name:string;
-//     label:string,
-//     errors:Record<string,{message?:string}>,
-//     register:ReturnType<typeof useForm<SignUpType>>['register'],
-//     type?:string;
-//     maxLength?:number;
-// }
-
 export type NavItemsType={
     name:string
     link:string

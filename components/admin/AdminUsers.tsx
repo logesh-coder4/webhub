@@ -17,7 +17,7 @@ const AdminUsers = ({data}:{data:User[]}) => {
 
     const handleDelete=async()=>{
         const user=await deleteUserAction(id!)
-        toast.success(user.message)
+        toast.error(`user is deleted successfully`)
         setOperation(null)
         setId(null)
     }
@@ -27,6 +27,7 @@ const AdminUsers = ({data}:{data:User[]}) => {
     }
     const handleUpdate=async(rawData:User) => {
         const user=await updateUser(id!,rawData)
+        toast.success(`${user?.id} is updated`)
         setUpdateData(user!)
         setOperation(null)
         setId(null)

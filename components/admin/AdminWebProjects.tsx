@@ -16,7 +16,7 @@ const AdminWebProjects = ({data}:{data:WebProjects[]}) => {
 
     const handleDelete=async()=>{
         const project=await deleteProject(id!,"web")
-        toast.success(project.message)
+        toast.error(project.message)
         setOperation(null)
         setId(null)
     }
@@ -26,6 +26,7 @@ const AdminWebProjects = ({data}:{data:WebProjects[]}) => {
     }
     const handleUpdate=async(rawData:WebProjects) => {
         const project=await updateProject(id!,"web",rawData)
+        toast.success(`${project?.id} is updated`)
         setUpdateData(project!)
         setOperation(null)
         setId(null)

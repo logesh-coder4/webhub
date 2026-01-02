@@ -8,11 +8,11 @@ export default async function PageLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
+    return (
         <Suspense fallback={<Loader/>}>
             <NavigartionBar/>
             {children}
             <Footer/>
         </Suspense>
-  );
+    );
 }

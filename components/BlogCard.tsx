@@ -28,7 +28,7 @@ export default function BlogCard({
     .toUpperCase();
   return (
     <article
-      className="bg-white dark:bg-[#0b0b0d] border border-transparent hover:border-gray-200 dark:hover:border-neutral-800 rounded-2xl shadow-sm hover:shadow-md transition p-6 flex flex-col justify-between"
+      className="bg-white w-56 md:w-full lg:w-full dark:bg-[#0b0b0d] border border-transparent hover:border-gray-200 dark:hover:border-neutral-800 rounded-2xl shadow-sm hover:shadow-md transition p-6 flex flex-col justify-between"
       aria-labelledby={`blog-title-${title}`}
     >
       <header className="mb-4">

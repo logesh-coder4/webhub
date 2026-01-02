@@ -15,7 +15,7 @@ const AdminBlogs = ({data}:{data:Blog[]}) => {
 
     const handleDelete=async()=>{
         const blog=await deleteBlog(id!)
-        toast.success(blog.title)
+        toast.error(`${blog.title} is deleted successfully`)
         setOperation(null)
         setId(null)
     }
@@ -25,6 +25,7 @@ const AdminBlogs = ({data}:{data:Blog[]}) => {
     }
     const handleUpdate=async(rawData:Blog) => {
         const blog=await updateBlog(id!,rawData)
+        toast.success(`${blog?.id} is updated`)
         setUpdateData(blog!)
         setOperation(null)
         setId(null)

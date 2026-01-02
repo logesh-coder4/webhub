@@ -1,4 +1,3 @@
-'use server'
 import { auth } from '@/auth'
 import { MentorshipCard } from '@/components/dashboard/MentorshipCard'
 import { NotificationsWidget } from '@/components/dashboard/NotificationWidget'
@@ -11,19 +10,24 @@ import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTi
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { getUserNotificaions } from '@/data/data'
 import { getUserProjects } from '@/data/project'
-import { timeSince } from '@/lib/time-stamps'
 import { IconBell, IconFolderCode } from '@tabler/icons-react'
 import { CheckCircle, FolderKanban, Plus, RefreshCcwIcon, Rocket, Users } from 'lucide-react'
+import { Metadata } from 'next'
+import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
+export const metadata:Metadata={
+    title: "Dashboard",
+    description:"Manage your projects, track progress, view updates, and control everything from one central dashboard."
+}
+
 const Dashboard = async() => {
-    await new Promise(res=>setTimeout(res,5000))
     const session=await auth()
     const notifications=await getUserNotificaions()
     if (!session?.user) {
         redirect('/login')
     }
-    const {totalProjectsCount,upcoming,otherProjectsCount,webProjectsCount,isSuccess,webProjects,otherProjects,completed,ongoing}=await getUserProjects()
+    const {upcoming,otherProjectsCount,webProjectsCount,webProjects,otherProjects,completed,ongoing}=await getUserProjects()
     
     return (
     <div className="flex-1 flex flex-col mt-10">
@@ -77,7 +81,7 @@ const Dashboard = async() => {
                   <h2 className="text-2xl font-bold">My Projects</h2>
                   <Button className="rounded-xl gap-2 shadow-lg hover:shadow-xl transition-all cursor-pointer">
                     <Plus className="w-4 h-4" />
-                    New Project
+                    <Link href='/project-type'>New Project</Link>
                   </Button>
                 </div>
 

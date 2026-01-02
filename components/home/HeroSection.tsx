@@ -4,8 +4,10 @@ import { RainbowButton } from '../ui/rainbow-button';
 import { motion } from "motion/react";
 import { ChevronRightIcon } from 'lucide-react';
 import { Button } from '../ui/button';
+import { useRouter } from 'next/navigation';
 
 const HeroSection=()=>{
+    const router=useRouter()
   return(
     <div className="relative mx-auto py-10 flex max-w-7xl flex-col items-center justify-center h-screen">
       <div className="absolute inset-y-0 left-0 h-full w-px bg-neutral-200/80 dark:bg-neutral-800/80">
@@ -70,8 +72,10 @@ const HeroSection=()=>{
           <Link href="/project-type">Book Your Project</Link><ChevronRightIcon/>
         </RainbowButton>
           <Button 
-          className="w-60 h-11 transform rounded-lg border border-gray-300 bg-white px-6 py-3 font-medium text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-100 dark:border-gray-700 dark:bg-black dark:text-white dark:hover:bg-gray-900">
-            Contact Support
+          className="w-60 h-11 transform rounded-lg border border-gray-300 bg-white px-6 py-3 font-medium text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-100 dark:border-gray-700 dark:bg-black dark:text-white dark:hover:bg-gray-900"
+          onClick={()=>router.push('/feedback')}
+          >
+            Feedback
           </Button>
         </motion.div>
       </div>

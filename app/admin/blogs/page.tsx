@@ -6,7 +6,7 @@ const AdminBlogPage = async() => {
     await connection()
     const data=await getAllBlogs()
     return (
-        <div className="">
+        <div>
             <AdminBlogs data={data}/>
         </div>
     )

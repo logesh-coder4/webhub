@@ -34,7 +34,7 @@ export function ProjectCard({project}:{project:WebProjects}) {
 
         {/* Action */}
         
-        <Button className="w-full rounded-xl" variant="secondary" onClick={()=>router.push(`/project/${project.secreatKey}/?type=${project.modal}`)}>
+        <Button className="w-full rounded-xl" variant="secondary" onClick={()=>router.push(`/project/${project.secreatKey}/?type=${project.model}`)}>
           View Project
         </Button>
       </div>

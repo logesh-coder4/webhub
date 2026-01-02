@@ -63,7 +63,6 @@ export const getUserProjects=async () => {
 export const getWebProject=async (id:number) => {
     const project=await db.webProjects.findUnique({where:{id}})
     if (!project) {
-        // return  {message:"Error"}
         return
     }
     return project
@@ -71,7 +70,6 @@ export const getWebProject=async (id:number) => {
 export const getOtherProject=async (id:number) => {
     const project=await db.otherProjects.findUnique({where:{id}})
     if (!project) {
-        // return  {message:"Error"}
         return
     }
     return project

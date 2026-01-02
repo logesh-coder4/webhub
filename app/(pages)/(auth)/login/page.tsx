@@ -16,7 +16,7 @@ const Login = () => {
     const [isPending,startTransition]=useTransition()
     const session=useSession()
     const router=useRouter()
-    if (session.status==="unauthenticated") {
+    if (session.status==="authenticated") {
         router.replace('/')
     }
     
@@ -26,6 +26,7 @@ const Login = () => {
             setError(response?.message)
         })
     }
+
     return(
         <div className="h-screen flex items-center justify-center flex-col">
             {error&&
@@ -51,13 +52,14 @@ const Login = () => {
                                 <Field>
                                     <FieldLabel htmlFor='password'>Password</FieldLabel>
                                     <Input name='password' type='password' className='focus-visible:ring-blue-600/75' />
+                                    <Link href="/forgot-password" className='text-blue-700 text-end'>Forgot Password</Link>
                                 </Field>
                             </FieldGroup>
                         </FieldContent>
                     </FieldSet>
                     <FieldGroup>
                         <Field>
-                            <Button>{isPending?<><Spinner/>Logging</>:"Login"}</Button>
+                            <Button>{isPending?<><Spinner/>Logging in....</>:"Login"}</Button>
                         </Field>
                     </FieldGroup>
                     <FieldSeparator/>
