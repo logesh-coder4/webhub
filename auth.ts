@@ -28,13 +28,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
             const user=await checkIsUser(email)
             if (!user) {
-                throw new  Error("No account is associated with this email address,Please sugnup first");
+                throw new  Error("No account is associated with this email address,Please signup first");
             }
             if (!user.password) {
                 throw new  Error('Please enter your password and continue')
             }
             if (!user.isActive) {
-                throw new Error("Your account is not verified yet.Please verify your rmail to continue.")
+                throw new Error("Your account is not verified yet.Please verify your gmail to continue.")
             }
             const isMatched=await verifyPassword(password,user.password)
             if (!isMatched) {
@@ -49,7 +49,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
             return userData
         } catch (error) {
-            throw new Error(error?.message)
+            throw new Error("Server error please try again later")
         }
     },
   })],

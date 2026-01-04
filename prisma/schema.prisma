@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client"
   output   = "../lib/generated/prisma"
@@ -13,13 +7,143 @@ datasource db {
   provider = "mysql"
 }
 
-enum FrontendTech{
+model User {
+  id                Int                @id @default(autoincrement())
+  username          String
+  email             String             @unique
+  password          String
+  joinedAt          DateTime           @default(now())
+  isSuperUser       Boolean            @default(false)
+  isActive          Boolean            @default(false)
+  isAdmin           Boolean            @default(false)
+  resetToken        String?
+  resetTokenExpires DateTime?
+  profession        UserProfession     @default(other)
+  Blogs             Blog[]
+  message           Message[]
+  notifications     Notification[]
+  otherProjects     OtherProjects[]
+  testimonials      Testimonials[]
+  token             VerificationToken?
+  webProjects       WebProjects[]
+}
+
+model VerificationToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    Int      @unique
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Testimonials {
+  id         Int      @id @default(autoincrement())
+  message    String   @db.Text
+  userId     Int
+  ratings    String   @default("0")
+  isApproved Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "Testimonials_userId_fkey")
+}
+
+model WebProjects {
+  id           Int           @id @default(autoincrement())
+  model        String        @default("web")
+  name         String
+  description  String        @db.Text
+  userId       Int
+  projectType  ProjectType   @default(Others)
+  frontendTech FrontendTech?
+  backendTech  BackendTech?
+  database     Database?
+  language     Language?
+  service      WebServices?
+  createdAt    DateTime      @default(now())
+  isVerified   Boolean       @default(false)
+  price        Float         @default(0)
+  status       ProjectStatus @default(upcoming)
+  timeTaken    Int           @default(0)
+  secreatKey   String?       @unique
+  messages     Message[]     @relation("WebProjects")
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "WebProjects_userId_fkey")
+}
+
+model OtherProjects {
+  id          Int            @id @default(autoincrement())
+  technology  String?
+  domain      Domain?
+  projectName String?
+  model       String         @default("others")
+  projectType ProjectType?   @default(Others)
+  TaskType    String?
+  service     OtherServices?
+  description String?        @db.Text
+  createdAt   DateTime       @default(now())
+  isVerified  Boolean        @default(false)
+  userId      Int
+  price       Float          @default(0)
+  timeTaken   Int            @default(0)
+  secreatKey  String?        @unique
+  progress    Float          @default(0)
+  messages    Message[]      @relation("OtherProjects")
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "OtherProjects_userId_fkey")
+}
+
+model Blog {
+  id          Int      @id @default(autoincrement())
+  title       String?
+  description String   @db.Text
+  isPublished Boolean  @default(false)
+  userId      Int
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "Blog_userId_fkey")
+}
+
+model Message {
+  id              Int            @id @default(autoincrement())
+  text            String
+  senderId        Int
+  webProjectKey   String?
+  otherProjectKey String?
+  createdAt       DateTime       @default(now())
+  otherProject    OtherProjects? @relation("OtherProjects", fields: [otherProjectKey], references: [secreatKey])
+  sender          User           @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  webProject      WebProjects?   @relation("WebProjects", fields: [webProjectKey], references: [secreatKey])
+
+  @@index([otherProjectKey], map: "Message_otherProjectKey_fkey")
+  @@index([senderId], map: "Message_senderId_fkey")
+  @@index([webProjectKey], map: "Message_webProjectKey_fkey")
+}
+
+model Notification {
+  id        Int               @id @default(autoincrement())
+  title     String?
+  message   String
+  userId    Int
+  isRead    Boolean           @default(false)
+  type      NotificationType?
+  createdAt DateTime          @default(now())
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "Notification_userId_fkey")
+}
+
+enum FrontendTech {
   Random
   HTML
   React
   NextJs
 }
-enum BackendTech{
+
+enum BackendTech {
   Random
   Django
   FastApi
@@ -27,30 +151,35 @@ enum BackendTech{
   Express
   NextJs
 }
-enum Database{
+
+enum Database {
   Random
   MySql
   Postgress
   MongoDB
 }
-enum Language{
+
+enum Language {
   Python
   JavaScript
   TypeScript
 }
-enum ProjectType{
+
+enum ProjectType {
   Ecommerce
   Portfolio
   OTT
   Others
 }
-enum Domain{
+
+enum Domain {
   Frontend
   Backend
   FullStack
   Other
 }
-enum WebServices{
+
+enum WebServices {
   frontend
   backend
   fullstack
@@ -60,7 +189,7 @@ enum WebServices{
   testcase
 }
 
-enum OtherServices{
+enum OtherServices {
   mentorship
   learner
   supporter
@@ -68,137 +197,22 @@ enum OtherServices{
   collab
 }
 
-enum ProjectStatus{
+enum ProjectStatus {
   upcoming
   ongoing
   completed
 }
 
-enum NotificationType{
+enum NotificationType {
   request
-  update 
+  update
   change
 }
 
-enum UserProfession{
+enum UserProfession {
   student
   developer
   freelancer
   entrapaneour
   other
-}
-
-model User{
-   id Int @id @default(autoincrement())
-   username String
-   email String @unique
-   password String
-   joinedAt DateTime @default(now())
-   isSuperUser Boolean @default(false)
-   isActive Boolean @default(false)
-   isAdmin Boolean @default(false)
-   resetToken String? 
-   resetTokenExpires DateTime?
-   profession UserProfession @default(other)
-   testimonials Testimonials[]
-   webProjects WebProjects[]
-   otherProjects OtherProjects[]
-   Blogs Blog[]
-   message Message[]
-   notifications Notification[]
-   token VerificationToken?
-}
-
-model VerificationToken{
-  id String @id @default(uuid())
-  token String @unique
-  userId Int @unique
-  expiresAt DateTime
-  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
-}
-
-model Testimonials{
-  id Int @id @default(autoincrement())
-  message String @db.Text
-  userId Int
-  ratings String @default("0")
-  isApproved Boolean @default(false)
-  user User @relation(fields:[userId],references:[id],onDelete: Cascade)
-  createdAt DateTime @default(now())
-}
-
-model WebProjects{
-  id Int @id @default(autoincrement())
-  model String @default("web")
-  name String
-  description String @db.Text
-  userId  Int 
-  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
-  projectType ProjectType @default(Others)
-  frontendTech FrontendTech?
-  backendTech BackendTech?
-  database Database?
-  language Language?
-  service WebServices?
-  createdAt DateTime @default(now())
-  isVerified Boolean @default(false)
-  price Float @default(0.0)
-  status ProjectStatus @default(upcoming)
-  timeTaken Int @default(0)
-  secreatKey String? @unique
-  messages Message[] @relation("WebProjects")
-}
-
-model OtherProjects{
-  id Int @id @default(autoincrement())
-  technology String?
-  domain Domain?
-  projectName String?
-  model String @default("others")
-  projectType ProjectType? @default(Others)
-  TaskType String?
-  service OtherServices?
-  description String? @db.Text
-  createdAt DateTime @default(now())
-  isVerified Boolean @default(false)
-  userId  Int 
-  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
-  price Float @default(0.0)
-  timeTaken Int @default(0)
-  secreatKey String? @unique
-  messages Message[] @relation("OtherProjects")
-  progress Float @default(0)
-}
-
-model Blog{
-  id Int @id @default(autoincrement())
-  title String?
-  description String @db.Text
-  isPublished Boolean @default(false)
-  userId  Int 
-  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
-  createdAt DateTime @default(now())
-}
-
-model Message{
-  id Int @id @default(autoincrement())
-  text String
-  senderId Int
-  sender User @relation(fields: [senderId],references: [id],onDelete: Cascade)
-  webProjectKey String?
-  otherProjectKey String?
-  webProject WebProjects? @relation("WebProjects",fields: [webProjectKey],references: [secreatKey])
-  otherProject OtherProjects? @relation("OtherProjects",fields: [otherProjectKey],references: [secreatKey])
-  createdAt DateTime @default(now())
-}
-
-model Notification{
-  id Int @id @default(autoincrement())
-  title String?
-  message String
-  userId  Int 
-  isRead Boolean @default(false)
-  type NotificationType?
-  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
-  createdAt DateTime @default(now())
 }

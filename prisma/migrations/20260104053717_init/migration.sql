@@ -6,11 +6,25 @@ CREATE TABLE `User` (
     `password` VARCHAR(191) NOT NULL,
     `joinedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `isSuperUser` BOOLEAN NOT NULL DEFAULT false,
-    `isActive` BOOLEAN NOT NULL DEFAULT true,
+    `isActive` BOOLEAN NOT NULL DEFAULT false,
     `isAdmin` BOOLEAN NOT NULL DEFAULT false,
+    `resetToken` VARCHAR(191) NULL,
+    `resetTokenExpires` DATETIME(3) NULL,
     `profession` ENUM('student', 'developer', 'freelancer', 'entrapaneour', 'other') NOT NULL DEFAULT 'other',
 
     UNIQUE INDEX `User_email_key`(`email`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `VerificationToken` (
+    `id` VARCHAR(191) NOT NULL,
+    `token` VARCHAR(191) NOT NULL,
+    `userId` INTEGER NOT NULL,
+    `expiresAt` DATETIME(3) NOT NULL,
+
+    UNIQUE INDEX `VerificationToken_token_key`(`token`),
+    UNIQUE INDEX `VerificationToken_userId_key`(`userId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -111,19 +125,22 @@ CREATE TABLE `Notification` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Testimonials` ADD CONSTRAINT `Testimonials_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `VerificationToken` ADD CONSTRAINT `VerificationToken_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `WebProjects` ADD CONSTRAINT `WebProjects_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Testimonials` ADD CONSTRAINT `Testimonials_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `OtherProjects` ADD CONSTRAINT `OtherProjects_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `WebProjects` ADD CONSTRAINT `WebProjects_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Blog` ADD CONSTRAINT `Blog_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `OtherProjects` ADD CONSTRAINT `OtherProjects_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Message` ADD CONSTRAINT `Message_senderId_fkey` FOREIGN KEY (`senderId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Blog` ADD CONSTRAINT `Blog_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Message` ADD CONSTRAINT `Message_senderId_fkey` FOREIGN KEY (`senderId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Message` ADD CONSTRAINT `Message_webProjectKey_fkey` FOREIGN KEY (`webProjectKey`) REFERENCES `WebProjects`(`secreatKey`) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -132,4 +149,4 @@ ALTER TABLE `Message` ADD CONSTRAINT `Message_webProjectKey_fkey` FOREIGN KEY (`
 ALTER TABLE `Message` ADD CONSTRAINT `Message_otherProjectKey_fkey` FOREIGN KEY (`otherProjectKey`) REFERENCES `OtherProjects`(`secreatKey`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Notification` ADD CONSTRAINT `Notification_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Notification` ADD CONSTRAINT `Notification_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
